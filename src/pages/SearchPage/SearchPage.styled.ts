@@ -12,8 +12,9 @@ export const Header = styled.header`
 `;
 
 export const Main = styled.main`
+  position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -23,6 +24,7 @@ export const Footer = styled.footer`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 8px;
 `;
 
 export const Title = styled.h2`

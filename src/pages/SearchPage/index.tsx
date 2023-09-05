@@ -1,11 +1,17 @@
 import React from 'react';
 
+import { useInput } from '../../hooks/useInput';
+import { useIsRefFocused } from '../../hooks/useIsRefFocused';
 import { PageLayout } from '../../components/PageLayout';
+import { SearchResult } from '../../components/SearchResult';
 import * as S from './SearchPage.styled';
 
 export const SearchPage = () => {
+  const [searchText, handleSearchInputChange] = useInput('');
+  const [ref, isRefFocused, handleRefClick] = useIsRefFocused();
+
   return (
-    <PageLayout gap={'160px'} backgroundColor="secondary">
+    <PageLayout onClick={handleRefClick} gap={'160px'} backgroundColor="secondary">
       <S.Header>
         <S.Title>
           국내 모든 임상시험 검색하고
@@ -13,10 +19,21 @@ export const SearchPage = () => {
         </S.Title>
       </S.Header>
       <S.Main>
-        <S.Form>
-          <S.Input type="text" placeholder="질환명을 입력해 주세요." />
+        <S.Form
+          onSubmit={e => {
+            e.preventDefault();
+          }}
+        >
+          <S.Input
+            value={searchText}
+            onChange={handleSearchInputChange}
+            ref={ref}
+            type="text"
+            placeholder="질환명을 입력해 주세요."
+          />
           <S.Button />
         </S.Form>
+        {isRefFocused && <SearchResult>{searchText}</SearchResult>}
       </S.Main>
       <S.Footer>@Wanted Internship By JaydenLee1116</S.Footer>
     </PageLayout>

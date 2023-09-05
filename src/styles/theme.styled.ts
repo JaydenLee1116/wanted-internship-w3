@@ -8,5 +8,6 @@ export const theme = {
     black: color.black,
     darkGray: color.gray[600],
     lightGray: color.gray[100],
+    transparent: color.transparent,
   },
 };

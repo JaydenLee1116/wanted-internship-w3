@@ -60,6 +60,13 @@ export const Input = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.colors.darkGray};
   }
+  &:focus {
+    background-image: none;
+    padding-left: 8px;
+    &::placeholder {
+      color: transparent;
+    }
+  }
 `;
 
 export const Button = styled.button`

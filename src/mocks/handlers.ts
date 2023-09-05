@@ -4,6 +4,17 @@ import data from './db';
 
 export const handlers = [
   rest.get(`${MOCK_API_URL}${MOCK_API_PATH.SICK}`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(data));
+    const searchedNoun = req.url.searchParams.get('q');
+
+    // NOTE: query parameter - `q`가 없을 경우 전체 데이터를 반환
+    if (!searchedNoun) {
+      return res(ctx.status(200), ctx.json(data));
+    }
+
+    const filteredData = data.sick.filter(item => {
+      return item.sickNm.includes(searchedNoun);
+    });
+
+    return res(ctx.status(200), ctx.json(filteredData));
   }),
 ];

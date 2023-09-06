@@ -5,6 +5,7 @@ export const useRecentlyKeywords = () => {
     JSON.parse(sessionStorage.getItem('recentlyKeywords') || '[]'),
   );
   const handleRecentlyKeywords = (keyword: string) => {
+    if (recentlyKeywords.includes(keyword)) return;
     setRecentlyKeywords([...recentlyKeywords, keyword]);
     sessionStorage.setItem('recentlyKeywords', JSON.stringify([...recentlyKeywords, keyword]));
   };

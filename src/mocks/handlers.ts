@@ -11,9 +11,11 @@ export const handlers = [
       return res(ctx.status(200), ctx.json(data));
     }
 
-    const filteredData = data.sick.filter(item => {
-      return item.sickNm.includes(searchedNoun);
-    });
+    const filteredData = {
+      sick: data.sick.filter(item => {
+        return item.sickNm.includes(searchedNoun);
+      }),
+    };
 
     return res(ctx.status(200), ctx.json(filteredData));
   }),

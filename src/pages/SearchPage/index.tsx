@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { SickItem } from '../../types';
-import { MOCK_API_PATH } from '../../api/apiConfig';
-import { MAX_SHOWN_KEYWORD_LIST_LENGTH } from '../../constants';
+import { MAX_SHOWN_KEYWORD_LIST_LENGTH, ONE_DAY } from '../../constants';
 import { hasValue } from '../../utils/hasValue';
 import { useInput } from '../../hooks/useInput';
 import { useIsRefFocused } from '../../hooks/useIsRefFocused';
@@ -16,10 +15,10 @@ export const SearchPage = () => {
   const [searchText, handleSearchInputChange] = useInput('');
   const [ref, isRefFocused, handleRefClick] = useIsRefFocused();
   const [recentlyKeywords, handleRecentlyKeywords] = useRecentlyKeywords();
-  const [data, isLoading, isError] = useGetQuery<{ sick: SickItem[] }>(
-    MOCK_API_PATH.SICK,
-    searchText,
-  );
+  const [data, isLoading, isError] = useGetQuery<{ sick: SickItem[] }>({
+    q: searchText,
+    config: { expiredTime: ONE_DAY },
+  });
 
   return (
     <PageLayout onClick={handleRefClick} gap={'160px'} backgroundColor="secondary">

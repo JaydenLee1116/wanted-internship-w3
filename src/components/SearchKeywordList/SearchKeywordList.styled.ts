@@ -5,6 +5,7 @@ export const List = styled.ul`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  gap: 8px;
   width: 600px;
   height: fit-content;
   background-color: ${({ theme }) => theme.colors.transparent};

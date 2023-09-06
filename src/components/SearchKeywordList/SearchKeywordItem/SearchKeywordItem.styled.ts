@@ -8,14 +8,15 @@ export const Item = styled.li`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 32px;
+  height: 24px;
   padding: 0 48px;
   border-radius: 8px;
-  font-size: 24px;
+  font-size: 16px;
   background-image: url(${searchIconGray});
   background-repeat: no-repeat;
   background-position: 16px center;
   background-size: 24px;
+  cursor: pointer;
   &:hover {
     background-color: ${({ theme }) => theme.colors.lightGray};
   }

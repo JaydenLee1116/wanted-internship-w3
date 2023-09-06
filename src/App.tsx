@@ -1,11 +1,12 @@
 import React from 'react';
 import { RouterProvider } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
 import { router } from './routes/router';
-import { ThemeProvider } from 'styled-components';
+import { CacheProvider } from './context/CacheContext';
+import { worker } from './mocks/browser';
 import { GlobalStyles } from './styles/GlobalStyles.styled';
 import { theme } from './styles/theme.styled';
-import { worker } from './mocks/browser';
 
 if (process.env.NODE_ENV === 'development') {
   worker.start();
@@ -16,7 +17,9 @@ function App() {
     <>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
+        <CacheProvider>
+          <RouterProvider router={router} />
+        </CacheProvider>
       </ThemeProvider>
     </>
   );

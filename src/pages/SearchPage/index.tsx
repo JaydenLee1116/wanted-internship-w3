@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isEmpty } from '../../utils/isEmpty';
 import { useInput } from '../../hooks/useInput';
 import { useIsRefFocused } from '../../hooks/useIsRefFocused';
 import { useRecentlyKeywords } from '../../hooks/useRecentlyKeywords';
@@ -38,12 +39,27 @@ export const SearchPage = () => {
         </S.Form>
         {isRefFocused && (
           <S.SearchKeywordContainer>
-            <SearchKeywordList
-              keywordList={recentlyKeywords.map((keyword, index) => ({
-                sickCd: index.toString(),
-                sickNm: keyword,
-              }))}
-            />
+            {isEmpty(searchText) ? (
+              <SearchKeywordList
+                keywordList={recentlyKeywords.map((keyword, index) => ({
+                  sickCd: index.toString(),
+                  sickNm: keyword,
+                }))}
+              />
+            ) : (
+              <SearchKeywordList
+                keywordList={[
+                  {
+                    sickCd: '0',
+                    sickNm: '감기',
+                  },
+                  {
+                    sickCd: '1',
+                    sickNm: '독감',
+                  },
+                ]}
+              />
+            )}
           </S.SearchKeywordContainer>
         )}
       </S.Main>

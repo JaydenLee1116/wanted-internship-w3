@@ -4,7 +4,7 @@ import * as S from './PageLayout.styled';
 
 interface PageLayoutProps {
   children: React.ReactNode;
-  onClick: (e: MouseEvent<HTMLElement>) => void;
+  onClick?: (e: MouseEvent<HTMLElement>) => void;
   gap?: string;
   backgroundColor?: 'primary' | 'secondary' | 'black';
 }

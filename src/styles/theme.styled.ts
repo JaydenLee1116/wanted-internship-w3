@@ -9,5 +9,6 @@ export const theme = {
     darkGray: color.gray[600],
     lightGray: color.gray[100],
     transparent: color.transparent,
+    error: color.red[600],
   },
 };

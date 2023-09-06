@@ -3,7 +3,7 @@ import React from 'react';
 import { useInput } from '../../hooks/useInput';
 import { useIsRefFocused } from '../../hooks/useIsRefFocused';
 import { PageLayout } from '../../components/PageLayout';
-import { SearchResult } from '../../components/SearchResult';
+import { SearchKeywordDropDown } from '../../components/SearchKeywordDropDown';
 import * as S from './SearchPage.styled';
 
 export const SearchPage = () => {
@@ -33,7 +33,7 @@ export const SearchPage = () => {
           />
           <S.Button />
         </S.Form>
-        {isRefFocused && <SearchResult>{searchText}</SearchResult>}
+        {isRefFocused && <SearchKeywordDropDown />}
       </S.Main>
       <S.Footer>@Wanted Internship By JaydenLee1116</S.Footer>
     </PageLayout>

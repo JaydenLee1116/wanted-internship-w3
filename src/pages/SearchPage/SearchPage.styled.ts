@@ -50,7 +50,7 @@ export const Form = styled.form`
 
 export const Input = styled.input`
   outline: none;
-  width: 70%;
+  width: 90%;
   height: 70%;
   border-radius: 40px;
   font-size: 24px;

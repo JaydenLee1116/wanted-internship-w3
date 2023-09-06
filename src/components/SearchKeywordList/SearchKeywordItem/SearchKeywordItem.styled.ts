@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-import searchIconGray from '../../../../assets/icons/search-gray.svg';
+import searchIconGray from '../../../assets/icons/search-gray.svg';
 
 export const Item = styled.li`
   display: flex;

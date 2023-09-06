@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SickItem } from '../../../../types';
+import { SickItem } from '../../../types';
 import * as S from './SearchKeywordItem.styled';
 
 interface SearchKeywordItemProps {

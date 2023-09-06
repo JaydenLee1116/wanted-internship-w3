@@ -2,13 +2,15 @@ import React from 'react';
 
 import { useInput } from '../../hooks/useInput';
 import { useIsRefFocused } from '../../hooks/useIsRefFocused';
+import { useRecentlyKeywords } from '../../hooks/useRecentlyKeywords';
 import { PageLayout } from '../../components/PageLayout';
-import { SearchKeywordDropDown } from '../../components/SearchKeywordDropDown';
+import { SearchKeywordList } from '../../components/SearchKeywordList';
 import * as S from './SearchPage.styled';
 
 export const SearchPage = () => {
   const [searchText, handleSearchInputChange] = useInput('');
   const [ref, isRefFocused, handleRefClick] = useIsRefFocused();
+  const [recentlyKeywords, handleRecentlyKeywords] = useRecentlyKeywords();
 
   return (
     <PageLayout onClick={handleRefClick} gap={'160px'} backgroundColor="secondary">
@@ -22,6 +24,7 @@ export const SearchPage = () => {
         <S.Form
           onSubmit={e => {
             e.preventDefault();
+            handleRecentlyKeywords(searchText);
           }}
         >
           <S.Input
@@ -33,7 +36,16 @@ export const SearchPage = () => {
           />
           <S.Button />
         </S.Form>
-        {isRefFocused && <SearchKeywordDropDown />}
+        {isRefFocused && (
+          <S.SearchKeywordContainer>
+            <SearchKeywordList
+              keywordList={recentlyKeywords.map((keyword, index) => ({
+                sickCd: index.toString(),
+                sickNm: keyword,
+              }))}
+            />
+          </S.SearchKeywordContainer>
+        )}
       </S.Main>
       <S.Footer>@Wanted Internship By JaydenLee1116</S.Footer>
     </PageLayout>

@@ -10,7 +10,6 @@ interface SearchKeywordListProps {
 }
 
 export const SearchKeywordList = ({ keywordList }: SearchKeywordListProps) => {
-  console.log(hasValue(keywordList));
   return (
     <S.List>
       {hasValue(keywordList) &&

@@ -1,9 +1,13 @@
 import React from 'react';
 
-import { isEmpty } from '../../utils/isEmpty';
+import { SickItem } from '../../types';
+import { MOCK_API_PATH } from '../../api/apiConfig';
+import { MAX_SHOWN_KEYWORD_LIST_LENGTH } from '../../constants';
+import { hasValue } from '../../utils/hasValue';
 import { useInput } from '../../hooks/useInput';
 import { useIsRefFocused } from '../../hooks/useIsRefFocused';
 import { useRecentlyKeywords } from '../../hooks/useRecentlyKeywords';
+import { useGetQuery } from '../../hooks/useGetQuery';
 import { PageLayout } from '../../components/PageLayout';
 import { SearchKeywordList } from '../../components/SearchKeywordList';
 import * as S from './SearchPage.styled';
@@ -12,6 +16,10 @@ export const SearchPage = () => {
   const [searchText, handleSearchInputChange] = useInput('');
   const [ref, isRefFocused, handleRefClick] = useIsRefFocused();
   const [recentlyKeywords, handleRecentlyKeywords] = useRecentlyKeywords();
+  const [data, isLoading, isError] = useGetQuery<{ sick: SickItem[] }>(
+    MOCK_API_PATH.SICK,
+    searchText,
+  );
 
   return (
     <PageLayout onClick={handleRefClick} gap={'160px'} backgroundColor="secondary">
@@ -39,25 +47,22 @@ export const SearchPage = () => {
         </S.Form>
         {isRefFocused && (
           <S.SearchKeywordContainer>
-            {isEmpty(searchText) ? (
+            {hasValue(searchText) ? (
+              <>
+                {isLoading && <div>검색 중...</div>}
+                {isError && <div>에러가 발생했습니다.</div>}
+                {!(isLoading || isError) && (
+                  <SearchKeywordList
+                    keywordList={data?.sick.slice(0, MAX_SHOWN_KEYWORD_LIST_LENGTH)}
+                  />
+                )}
+              </>
+            ) : (
               <SearchKeywordList
                 keywordList={recentlyKeywords.map((keyword, index) => ({
                   sickCd: index.toString(),
                   sickNm: keyword,
                 }))}
-              />
-            ) : (
-              <SearchKeywordList
-                keywordList={[
-                  {
-                    sickCd: '0',
-                    sickNm: '감기',
-                  },
-                  {
-                    sickCd: '1',
-                    sickNm: '독감',
-                  },
-                ]}
               />
             )}
           </S.SearchKeywordContainer>

@@ -17,7 +17,7 @@ export const Main = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 80px;
+  margin-bottom: 160px;
 `;
 
 export const Footer = styled.footer`
@@ -101,10 +101,10 @@ export const SearchKeywordContainer = styled.section`
   box-shadow: 0 0 8px 1px ${({ theme }) => theme.colors.primary};
 `;
 
-export const SearchInfo = styled.p<{ isBlack?: boolean }>`
+export const SearchInfo = styled.p<{ $isBlack?: boolean }>`
   font-size: 16px;
   font-weight: bold;
-  color: ${({ theme, isBlack }) => (isBlack ? theme.colors.black : theme.colors.darkGray)};
+  color: ${({ theme, $isBlack }) => ($isBlack ? theme.colors.black : theme.colors.darkGray)};
   padding: 0 24px;
   margin: 8px 0;
 `;

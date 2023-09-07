@@ -16,9 +16,15 @@ export const Item = styled.li`
   background-repeat: no-repeat;
   background-position: 16px center;
   background-size: 24px;
-
   cursor: pointer;
+
   &:hover {
+    font-weight: bold;
+    background-color: ${({ theme }) => theme.colors.lightGray};
+  }
+  &:focus {
+    outline: none;
+    font-weight: bold;
     background-color: ${({ theme }) => theme.colors.lightGray};
   }
 `;

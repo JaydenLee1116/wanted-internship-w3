@@ -6,9 +6,9 @@ export const handlers = [
   rest.get(`${MOCK_API_URL}${MOCK_API_PATH.SICK}`, (req, res, ctx) => {
     const searchedNoun = req.url.searchParams.get('q');
 
-    // NOTE: query parameter - `q`가 없을 경우 전체 데이터를 반환
+    // NOTE: query parameter - `q`가 없을 경우 빈 데이터를 반환
     if (!searchedNoun) {
-      return res(ctx.status(200), ctx.json(data));
+      return res(ctx.status(200), ctx.json({ sick: [] }));
     }
 
     const filteredData = {

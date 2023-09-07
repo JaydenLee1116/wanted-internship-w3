@@ -69,8 +69,9 @@ export const SearchPage = () => {
           <S.SearchKeywordContainer>
             {hasValue(searchText) ? (
               <>
-                {isLoading && <div>검색 중...</div>}
-                {isError && <div>에러가 발생했습니다.</div>}
+                <S.SearchInfo>추천 검색어</S.SearchInfo>
+                {isLoading && <S.SearchInfo>검색 중...</S.SearchInfo>}
+                {isError && <S.SearchInfo>에러가 발생했습니다.</S.SearchInfo>}
                 {!(isLoading || isError) && (
                   <SearchKeywordList
                     keywordList={data?.sick.slice(0, MAX_SHOWN_KEYWORD_LIST_LENGTH)}
@@ -79,13 +80,17 @@ export const SearchPage = () => {
                 )}
               </>
             ) : (
-              <SearchKeywordList
-                keywordList={recentlyKeywords.map((keyword, index) => ({
-                  sickCd: index.toString(),
-                  sickNm: keyword,
-                }))}
-                focusIndex={focusIndex}
-              />
+              <>
+                <S.SearchInfo>최근 검색어</S.SearchInfo>
+                <SearchKeywordList
+                  keywordList={recentlyKeywords.map((keyword, index) => ({
+                    sickCd: index.toString(),
+                    sickNm: keyword,
+                  }))}
+                  focusIndex={focusIndex}
+                />
+                {hasValue(searchText) || <S.SearchInfo>검색어 없음</S.SearchInfo>}
+              </>
             )}
           </S.SearchKeywordContainer>
         )}

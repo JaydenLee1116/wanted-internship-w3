@@ -17,6 +17,7 @@ export const Main = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 80px;
 `;
 
 export const Footer = styled.footer`
@@ -90,7 +91,7 @@ export const SearchKeywordContainer = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   width: 600px;
   height: fit-content;
   padding: 16px 0;
@@ -98,4 +99,11 @@ export const SearchKeywordContainer = styled.section`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 24px;
   box-shadow: 0 0 8px 1px ${({ theme }) => theme.colors.primary};
+`;
+
+export const SearchInfo = styled.p`
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.darkGray};
+  padding: 0 24px;
+  margin: 8px 0;
 `;

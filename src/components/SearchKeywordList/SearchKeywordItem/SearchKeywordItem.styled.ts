@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 import searchIconGray from '../../../assets/icons/search-gray.svg';
 
-export const Item = styled.li<{ isFocused: boolean }>`
+export const Item = styled.li`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -16,8 +16,7 @@ export const Item = styled.li<{ isFocused: boolean }>`
   background-repeat: no-repeat;
   background-position: 16px center;
   background-size: 24px;
-  background-color: ${({ isFocused, theme }) =>
-    isFocused ? theme.colors.lightGray : theme.colors.white};
+
   cursor: pointer;
   &:hover {
     background-color: ${({ theme }) => theme.colors.lightGray};

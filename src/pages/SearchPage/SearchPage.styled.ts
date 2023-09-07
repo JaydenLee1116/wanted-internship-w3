@@ -101,9 +101,10 @@ export const SearchKeywordContainer = styled.section`
   box-shadow: 0 0 8px 1px ${({ theme }) => theme.colors.primary};
 `;
 
-export const SearchInfo = styled.p`
+export const SearchInfo = styled.p<{ isBlack?: boolean }>`
   font-size: 16px;
-  color: ${({ theme }) => theme.colors.darkGray};
+  font-weight: bold;
+  color: ${({ theme, isBlack }) => (isBlack ? theme.colors.black : theme.colors.darkGray)};
   padding: 0 24px;
   margin: 8px 0;
 `;

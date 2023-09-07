@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 
 import { SickItem } from '../../types';
-import { MAX_SHOWN_KEYWORD_LIST_LENGTH, ONE_DAY } from '../../constants';
+import { MAX_SHOWN_KEYWORD_LIST_LENGTH, ONE_DAY, KEYBOARD_EVENT_KEY } from '../../constants';
 import { hasValue } from '../../utils/hasValue';
 import { useInput } from '../../hooks/useInput';
 import { useIsRefFocused } from '../../hooks/useIsRefFocused';
@@ -20,24 +20,26 @@ export const SearchPage = () => {
     config: { expiredTime: ONE_DAY },
   });
   const keywordListRef = useRef<HTMLElement[]>([]);
+
   const handleInputKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowUp') {
+    if (e.key === KEYBOARD_EVENT_KEY.ARROW_UP) {
       e.preventDefault();
       return;
     }
-    if (e.key === 'ArrowDown') {
+    if (e.key === KEYBOARD_EVENT_KEY.ARROW_DOWN) {
       e.preventDefault();
       if (e.nativeEvent.isComposing) return;
       keywordListRef.current[0]?.focus();
     }
   };
+
   const handleKeywordItemKeyDown = (e: React.KeyboardEvent, index: number) => {
-    if (e.key === 'ArrowDown') {
+    if (e.key === KEYBOARD_EVENT_KEY.ARROW_DOWN) {
       e.preventDefault();
       keywordListRef.current[index + 1]?.focus();
       return;
     }
-    if (e.key === 'ArrowUp') {
+    if (e.key === KEYBOARD_EVENT_KEY.ARROW_UP) {
       e.preventDefault();
       if (index === 0) {
         ref.current?.focus();
@@ -46,12 +48,13 @@ export const SearchPage = () => {
       keywordListRef.current[index - 1]?.focus();
       return;
     }
-    if (e.key === 'Enter') {
+    if (e.key === KEYBOARD_EVENT_KEY.ENTER) {
       e.preventDefault();
       setSearchText(keywordListRef.current[index].textContent || '');
       ref.current?.focus();
     }
   };
+
   return (
     <PageLayout onClick={handleRefClick} gap={'160px'} backgroundColor="secondary">
       <S.Header>

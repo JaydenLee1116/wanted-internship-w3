@@ -5,8 +5,9 @@ import * as S from './SearchKeywordItem.styled';
 
 interface SearchKeywordItemProps {
   name: SickItem['sickNm'];
+  isFocused: boolean;
 }
 
-export const SearchKeywordItem = ({ name }: SearchKeywordItemProps) => {
-  return <S.Item>{name}</S.Item>;
+export const SearchKeywordItem = ({ name, isFocused }: SearchKeywordItemProps) => {
+  return <S.Item isFocused={isFocused}>{name}</S.Item>;
 };

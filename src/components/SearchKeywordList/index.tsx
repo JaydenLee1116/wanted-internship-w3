@@ -7,18 +7,20 @@ import * as S from './SearchKeywordList.styled';
 
 interface SearchKeywordListProps {
   keywordList?: SickItem[] | null;
+  focusIndex: number;
 }
 
-export const SearchKeywordList = ({ keywordList }: SearchKeywordListProps) => {
+export const SearchKeywordList = ({ keywordList, focusIndex }: SearchKeywordListProps) => {
   return (
     <S.List>
       {hasValue(keywordList) &&
-        keywordList?.map(keywordItem => {
+        keywordList?.map((keywordItem, index, array) => {
           return (
             <SearchKeywordItem
               key={keywordItem.sickCd}
               name={keywordItem.sickNm}
-            ></SearchKeywordItem>
+              isFocused={index === focusIndex % array.length}
+            />
           );
         })}
     </S.List>

@@ -19,7 +19,7 @@ export const SearchPage = () => {
     q: searchText,
     config: { expiredTime: ONE_DAY },
   });
-
+  const [focusIndex, setFocusIndex] = React.useState(-1);
   return (
     <PageLayout onClick={handleRefClick} gap={'160px'} backgroundColor="secondary">
       <S.Header>
@@ -38,6 +38,27 @@ export const SearchPage = () => {
           <S.Input
             value={searchText}
             onChange={handleSearchInputChange}
+            onKeyDown={e => {
+              if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                setFocusIndex(prev => prev + 1);
+              }
+              if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                setFocusIndex(prev => {
+                  if (prev === -1) {
+                    return prev;
+                  }
+                  return prev - 1;
+                });
+              }
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                if (hasValue(searchText)) {
+                  handleRecentlyKeywords(searchText);
+                }
+              }
+            }}
             ref={ref}
             type="text"
             placeholder="질환명을 입력해 주세요."
@@ -53,6 +74,7 @@ export const SearchPage = () => {
                 {!(isLoading || isError) && (
                   <SearchKeywordList
                     keywordList={data?.sick.slice(0, MAX_SHOWN_KEYWORD_LIST_LENGTH)}
+                    focusIndex={focusIndex}
                   />
                 )}
               </>
@@ -62,6 +84,7 @@ export const SearchPage = () => {
                   sickCd: index.toString(),
                   sickNm: keyword,
                 }))}
+                focusIndex={focusIndex}
               />
             )}
           </S.SearchKeywordContainer>

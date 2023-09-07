@@ -5,5 +5,5 @@ export const useInput = <T>(initialValue: T) => {
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value as T);
   }, []);
-  return [value, handleInputChange] as const;
+  return [value, setValue, handleInputChange] as const;
 };

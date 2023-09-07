@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { SickItem } from '../../types';
 import { MAX_SHOWN_KEYWORD_LIST_LENGTH, ONE_DAY } from '../../constants';
@@ -12,14 +12,46 @@ import { SearchKeywordList } from '../../components/SearchKeywordList';
 import * as S from './SearchPage.styled';
 
 export const SearchPage = () => {
-  const [searchText, handleSearchInputChange] = useInput('');
+  const [searchText, setSearchText, handleSearchInputChange] = useInput('');
   const [ref, isRefFocused, handleRefClick] = useIsRefFocused();
   const [recentlyKeywords, handleRecentlyKeywords] = useRecentlyKeywords();
   const [data, isLoading, isError] = useGetQuery<{ sick: SickItem[] }>({
     q: searchText,
     config: { expiredTime: ONE_DAY },
   });
-  const [focusIndex, setFocusIndex] = React.useState(-1);
+  const keywordListRef = useRef<HTMLElement[]>([]);
+  const handleInputKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (e.nativeEvent.isComposing) return;
+      keywordListRef.current[0]?.focus();
+    }
+  };
+  const handleKeywordItemKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      keywordListRef.current[index + 1]?.focus();
+      return;
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (index === 0) {
+        ref.current?.focus();
+        return;
+      }
+      keywordListRef.current[index - 1]?.focus();
+      return;
+    }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      setSearchText(keywordListRef.current[index].textContent || '');
+      ref.current?.focus();
+    }
+  };
   return (
     <PageLayout onClick={handleRefClick} gap={'160px'} backgroundColor="secondary">
       <S.Header>
@@ -38,27 +70,7 @@ export const SearchPage = () => {
           <S.Input
             value={searchText}
             onChange={handleSearchInputChange}
-            onKeyDown={e => {
-              if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                setFocusIndex(prev => prev + 1);
-              }
-              if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                setFocusIndex(prev => {
-                  if (prev === -1) {
-                    return prev;
-                  }
-                  return prev - 1;
-                });
-              }
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                if (hasValue(searchText)) {
-                  handleRecentlyKeywords(searchText);
-                }
-              }
-            }}
+            onKeyDown={handleInputKeyDown}
             ref={ref}
             type="text"
             placeholder="질환명을 입력해 주세요."
@@ -69,13 +81,15 @@ export const SearchPage = () => {
           <S.SearchKeywordContainer>
             {hasValue(searchText) ? (
               <>
-                <S.SearchInfo>추천 검색어</S.SearchInfo>
-                {isLoading && <S.SearchInfo>검색 중...</S.SearchInfo>}
+                <S.SearchInfo $isBlack={true}>{searchText}</S.SearchInfo>
+                {hasValue(data?.sick) && <S.SearchInfo>추천 검색어</S.SearchInfo>}
+                {isLoading && <S.SearchInfo $isBlack={true}>검색 중...</S.SearchInfo>}
                 {isError && <S.SearchInfo>에러가 발생했습니다.</S.SearchInfo>}
                 {!(isLoading || isError) && (
                   <SearchKeywordList
                     keywordList={data?.sick.slice(0, MAX_SHOWN_KEYWORD_LIST_LENGTH)}
-                    focusIndex={focusIndex}
+                    listRef={keywordListRef}
+                    onKeywordItemKeyDown={handleKeywordItemKeyDown}
                   />
                 )}
               </>
@@ -87,7 +101,8 @@ export const SearchPage = () => {
                     sickCd: index.toString(),
                     sickNm: keyword,
                   }))}
-                  focusIndex={focusIndex}
+                  listRef={keywordListRef}
+                  onKeywordItemKeyDown={handleKeywordItemKeyDown}
                 />
                 {hasValue(searchText) || <S.SearchInfo>검색어 없음</S.SearchInfo>}
               </>

@@ -5,9 +5,14 @@ import * as S from './SearchKeywordItem.styled';
 
 interface SearchKeywordItemProps {
   name: SickItem['sickNm'];
-  isFocused: boolean;
+  itemRef: (element: HTMLElement | null) => void;
+  onKeyDown: (e: React.KeyboardEvent) => void;
 }
 
-export const SearchKeywordItem = ({ name, isFocused }: SearchKeywordItemProps) => {
-  return <S.Item isFocused={isFocused}>{name}</S.Item>;
+export const SearchKeywordItem = ({ name, itemRef, onKeyDown }: SearchKeywordItemProps) => {
+  return (
+    <S.Item ref={itemRef} onKeyDown={onKeyDown} tabIndex={0}>
+      {name}
+    </S.Item>
+  );
 };

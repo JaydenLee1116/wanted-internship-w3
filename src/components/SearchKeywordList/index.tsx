@@ -7,19 +7,32 @@ import * as S from './SearchKeywordList.styled';
 
 interface SearchKeywordListProps {
   keywordList?: SickItem[] | null;
-  focusIndex: number;
+  listRef: React.MutableRefObject<HTMLElement[]>;
+  onKeywordItemKeyDown: (e: React.KeyboardEvent, index: number) => void;
 }
 
-export const SearchKeywordList = ({ keywordList, focusIndex }: SearchKeywordListProps) => {
+export const SearchKeywordList = ({
+  keywordList,
+  listRef,
+  onKeywordItemKeyDown,
+}: SearchKeywordListProps) => {
   return (
     <S.List>
       {hasValue(keywordList) &&
-        keywordList?.map((keywordItem, index, array) => {
+        keywordList?.map((keywordItem, index) => {
           return (
             <SearchKeywordItem
               key={keywordItem.sickCd}
               name={keywordItem.sickNm}
-              isFocused={index === focusIndex % array.length}
+              itemRef={element => {
+                if (!element) {
+                  return;
+                }
+                listRef.current[index] = element;
+              }}
+              onKeyDown={e => {
+                onKeywordItemKeyDown(e, index);
+              }}
             />
           );
         })}
